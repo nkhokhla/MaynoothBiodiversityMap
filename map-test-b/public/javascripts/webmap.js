@@ -1,7 +1,4 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-var linesGJ={"type":"FeatureCollection","features":[{"type":"Feature","properties":{},"geometry":{"coordinates":[[-6.601505980304722,53.38006924763516],[-6.604705228582617,53.37964875841499]],"type":"LineString"}},{"type":"Feature","properties":{},"geometry":{"coordinates":[[-6.604786565402492,53.37963258566964],[-6.605410147694386,53.37820936003624],[-6.600909510286527,53.379098881631535],[-6.6006654998242595,53.37867838282938],[-6.604217207658053,53.37767563816075]],"type":"LineString"}}]};
-module.exports= { linesGJ };
-},{}],2:[function(require,module,exports){
 /* @preserve
  * Leaflet 1.9.4, a JS library for interactive maps. https://leafletjs.com
  * (c) 2010-2023 Vladimir Agafonkin, (c) 2010-2011 CloudMade
@@ -14515,59 +14512,12 @@ module.exports= { linesGJ };
 }));
 
 
-},{}],3:[function(require,module,exports){
-var pointsGJ={
-    "type": "FeatureCollection",
-    "features": [
-      {
-        "type": "Feature",
-        "properties": {
-          "name": "point1"
-        },
-        "geometry": {
-          "coordinates": [
-            -6.604063809325794,
-            53.382050999674334
-          ],
-          "type": "Point"
-        },
-        "id": 0
-      },
-      {
-        "type": "Feature",
-        "properties": {
-          "name": "point2"
-        },
-        "geometry": {
-          "coordinates": [
-            -6.597557644334188,
-            53.381468046874005
-          ],
-          "type": "Point"
-        },
-        "id": 1
-      },
-      {
-        "type": "Feature",
-        "properties": {
-          "name": "point3"
-        },
-        "geometry": {
-          "coordinates": [
-            -6.603170258768273,
-            53.37931938049147
-          ],
-          "type": "Point"
-        },
-        "id": 2
-      }
-    ]
-  }
-  module.exports= { pointsGJ };
-},{}],4:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 // import GeoJsons
-const {pointsGJ} = require('./points.js');
-const {linesGJ} = require('./lines.js');
+// const {pointsGJ} = require('./points.js');
+var urlPoints = '/data/points.geojson';
+// const {linesGJ} = require('./lines.js');
+var urlLines = '/data/lines.geojson';
 // Initialize leaflet.js
 var L = require('leaflet');
 
@@ -14588,16 +14538,25 @@ var osm_mapnik = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x
     zoomOffset: -1
 }).addTo(map);
 //add points from GeoJson
-var points =L.geoJSON(pointsGJ,{
+var points =L.geoJSON(null,{
     onEachFeature: function(feature, layer){
         layer.bindPopup(feature.properties.name)
         console.log(feature.properties.name)
     }
 });
 
+$.getJSON(urlPoints, function(data) {
+    points.addData(data);
+});
+
+
 //add lines from GeoJson
 
-var lines =L.geoJSON(linesGJ);
+var lines =L.geoJSON(null);
+$.getJSON(urlLines, function(data) {
+    lines.addData(data);
+});
+
 
 var baseMaps = {
     "OpenStreetMap": osm_mapnik
@@ -14611,4 +14570,4 @@ var overlayMaps = {
 L.control.layers(baseMaps, overlayMaps, {
     collapsed: false
 }).addTo(map);
-},{"./lines.js":1,"./points.js":3,"leaflet":2}]},{},[4]);
+},{"leaflet":1}]},{},[2]);
