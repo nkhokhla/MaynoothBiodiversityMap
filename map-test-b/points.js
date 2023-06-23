@@ -1,2 +1,48 @@
-var pointsGJ={"type":"FeatureCollection","features":[{"type":"Feature","properties":{"name":"point2"},"geometry":{"coordinates":[-6.60412018023527,53.38201349997695],"type":"Point"},"id":0},{"type":"Feature","properties":{"name":"point1"},"geometry":{"coordinates":[-6.597701438155497,53.38136429234959],"type":"Point"},"id":1},{"type":"Feature","properties":{"name ":"point3"},"geometry":{"coordinates":[-6.602557356076517,53.37938331558888],"type":"Point"},"id":2}]};
-// export { pointsGJ };
+var pointsGJ={
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "point1"
+        },
+        "geometry": {
+          "coordinates": [
+            -6.604063809325794,
+            53.382050999674334
+          ],
+          "type": "Point"
+        },
+        "id": 0
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "point2"
+        },
+        "geometry": {
+          "coordinates": [
+            -6.597557644334188,
+            53.381468046874005
+          ],
+          "type": "Point"
+        },
+        "id": 1
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "point3"
+        },
+        "geometry": {
+          "coordinates": [
+            -6.603170258768273,
+            53.37931938049147
+          ],
+          "type": "Point"
+        },
+        "id": 2
+      }
+    ]
+  }
+  module.exports= { pointsGJ };

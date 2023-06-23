@@ -1,0 +1,2 @@
+var linesGJ={"type":"FeatureCollection","features":[{"type":"Feature","properties":{},"geometry":{"coordinates":[[-6.601505980304722,53.38006924763516],[-6.604705228582617,53.37964875841499]],"type":"LineString"}},{"type":"Feature","properties":{},"geometry":{"coordinates":[[-6.604786565402492,53.37963258566964],[-6.605410147694386,53.37820936003624],[-6.600909510286527,53.379098881631535],[-6.6006654998242595,53.37867838282938],[-6.604217207658053,53.37767563816075]],"type":"LineString"}}]};
+module.exports= { linesGJ };

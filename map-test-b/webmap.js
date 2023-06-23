@@ -1,5 +1,6 @@
-// import { pointsGJ } from './points.js'
-
+// import GeoJsons
+const {pointsGJ} = require('./points.js');
+const {linesGJ} = require('./lines.js');
 // Initialize leaflet.js
 var L = require('leaflet');
 
@@ -19,40 +20,27 @@ var osm_mapnik = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x
     tileSize: 512,
     zoomOffset: -1
 }).addTo(map);
-
-const data ={
-    flower1: {
-        coords: [53.38207, -6.60404],
-        title: "<b>Flower 1</b>"
-    },
-    flower2: {
-        coords: [53.38146, -6.59769],
-        title: "<b>Flower 2</b>"
-    },
-    flower3: {
-        coords: [53.38105, -6.59622],
-        title: "<b>Flower 3</b>"
+//add points from GeoJson
+var points =L.geoJSON(pointsGJ,{
+    onEachFeature: function(feature, layer){
+        layer.bindPopup(feature.properties.name)
+        console.log(feature.properties.name)
     }
-}
-
-// Add the data to the map
-Object.keys(data).forEach(key => {
-    L.marker(data[key].coords).addTo(map)
-       .bindPopup(data[key].title)
 });
-// L.geoJSON(pointsGJ,{
-//     onEachFeature: function(feature, layer){
-//         layer.bindPopup(feature.properties.name)
-//     }
-// }).addTo(map);
 
-var latlngs = [
-    [53.38207, -6.60404],
-    [53.38146, -6.59769],
-    [53.38105, -6.59622],
-    [53.38123, -6.59576],
-    [53.38207, -6.60404]
-]
+//add lines from GeoJson
 
-// Add the data to the map
-lines = L.polyline(latlngs, {color: 'blue'}).addTo(map);
+var lines =L.geoJSON(linesGJ);
+
+var baseMaps = {
+    "OpenStreetMap": osm_mapnik
+};
+
+var overlayMaps = {
+    "Points": points,
+    "Lines": lines
+};
+
+L.control.layers(baseMaps, overlayMaps, {
+    collapsed: false
+}).addTo(map);
