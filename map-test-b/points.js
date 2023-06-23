@@ -1,0 +1,2 @@
+var pointsGJ={"type":"FeatureCollection","features":[{"type":"Feature","properties":{"name":"point2"},"geometry":{"coordinates":[-6.60412018023527,53.38201349997695],"type":"Point"},"id":0},{"type":"Feature","properties":{"name":"point1"},"geometry":{"coordinates":[-6.597701438155497,53.38136429234959],"type":"Point"},"id":1},{"type":"Feature","properties":{"name ":"point3"},"geometry":{"coordinates":[-6.602557356076517,53.37938331558888],"type":"Point"},"id":2}]};
+// export { pointsGJ };
