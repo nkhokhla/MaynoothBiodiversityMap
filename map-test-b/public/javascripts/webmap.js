@@ -14514,10 +14514,10 @@
 
 },{}],2:[function(require,module,exports){
 // import GeoJsons
-// const {pointsGJ} = require('./points.js');
 var urlPoints = '/data/points.geojson';
-// const {linesGJ} = require('./lines.js');
 var urlLines = '/data/lines.geojson';
+var urlArea = '/data/area.geojson';
+
 // Initialize leaflet.js
 var L = require('leaflet');
 
@@ -14540,7 +14540,7 @@ var osm_mapnik = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x
 //add points from GeoJson
 var points =L.geoJSON(null,{
     onEachFeature: function(feature, layer){
-        layer.bindPopup(feature.properties.name)
+        layer.bindPopup(feature.properties.name+'<img src="images/bumblebee.jpg" style="width:150px;height:100px;">')
         console.log(feature.properties.name)
     }
 });
@@ -14553,18 +14553,27 @@ $.getJSON(urlPoints, function(data) {
 //add lines from GeoJson
 
 var lines =L.geoJSON(null);
+
 $.getJSON(urlLines, function(data) {
     lines.addData(data);
 });
 
+//add area 
+var area =L.geoJSON(null);
 
+$.getJSON(urlArea, function(data) {
+    area.addData(data);
+});
+
+//add layers 
 var baseMaps = {
     "OpenStreetMap": osm_mapnik
 };
 
 var overlayMaps = {
     "Points": points,
-    "Lines": lines
+    "Lines": lines,
+    "Area": area
 };
 
 L.control.layers(baseMaps, overlayMaps, {
