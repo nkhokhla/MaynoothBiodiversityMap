@@ -26,7 +26,7 @@ var osm_mapnik = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x
 var points =L.geoJSON(null,{
     onEachFeature: function(feature, layer){
         layer.bindPopup(feature.properties.name+'<img src="images/bumblebee.jpg" style="width:150px;height:100px;">')
-        console.log(feature.properties.name)
+        // console.log(feature.properties.name)
     }
 });
 
