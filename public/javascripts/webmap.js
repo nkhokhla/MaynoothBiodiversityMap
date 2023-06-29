@@ -14537,7 +14537,7 @@ var osm_mapnik = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x
     tileSize: 512,
     zoomOffset: -1
 }).addTo(map);
-//add points from GeoJson
+//add points from GeoJson and create popups
 var points =L.geoJSON(null,{
     onEachFeature: function(feature, layer){
         layer.bindPopup(`
@@ -14548,25 +14548,36 @@ var points =L.geoJSON(null,{
           <div style="line-height:0.2">
           <h4>Species Counts</h4>
           <h5 style="font-weight: normal">
-          <p>Vascular plants:  26</p>
-          <p> Invertebrates:  38​</p>
-          <p> Trees:  11</p> 
+          <p><a href="https://www.google.com/">Vascular plants:</a>  26</p>
+          <p><a href="https://www.google.com/">Invertebrates:</a>  38​</p>
+          <p><a href="https://www.google.com/">Trees:</a>  11</p> 
           ​</h5>
           <h4>Some nice finds</h4>
-          <img src="images/bumblebee.jpg"/
+          <a href="images/bumblebee.jpg" target="_blank"><img src="images/bumblebee.jpg"/
           height=100px,
           width=150px>
+          </a>
           </div>
         </div>
-      `)
-        // console.log(feature.properties.name)
+      `),
+      {
+        maxWidth : 2000,
+        maxHeight : 2000
+        
+      }
     }
 });
-
 $.getJSON(urlPoints, function(data) {
     points.addData(data);
 });
-
+// points.on('click', function(e) {
+//     map.flyTo(e.latlng, 15);      
+// });         
+map.on('popupopen', function(e) {
+    var px = map.project(e.target._popup._latlng); // find the pixel location on the map where the popup anchor is
+    px.y -= e.target._popup._container.clientHeight/2; // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
+    map.panTo(map.unproject(px),{animate: true}); // pan to new center
+});
 
 //add lines from GeoJson
 
@@ -14597,4 +14608,5 @@ var overlayMaps = {
 L.control.layers(baseMaps, overlayMaps, {
     collapsed: false
 }).addTo(map);
+points.addTo(map);
 },{"leaflet":1}]},{},[2]);
