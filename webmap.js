@@ -25,7 +25,25 @@ var osm_mapnik = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x
 //add points from GeoJson
 var points =L.geoJSON(null,{
     onEachFeature: function(feature, layer){
-        layer.bindPopup(feature.properties.name+'<img src="images/bumblebee.jpg" style="width:150px;height:100px;">')
+        layer.bindPopup(`
+        <div>
+        
+          <h1>${feature.properties.Site_Name}\n</h1>\n
+          <p>${feature.properties.Management}</p>
+          <div style="line-height:0.2">
+          <h4>Species Counts</h4>
+          <h5 style="font-weight: normal">
+          <p>Vascular plants:  26</p>
+          <p> Invertebrates:  38​</p>
+          <p> Trees:  11</p> 
+          ​</h5>
+          <h4>Some nice finds</h4>
+          <img src="images/bumblebee.jpg"/
+          height=100px,
+          width=150px>
+          </div>
+        </div>
+      `)
         // console.log(feature.properties.name)
     }
 });
