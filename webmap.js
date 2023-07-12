@@ -1,7 +1,7 @@
 // import GeoJsons
 var urlPoints = '/data/points.geojson';
 var urlLines = '/data/lines.geojson';
-var urlArea = '/data/area.geojson';
+var urlAreas = '/data/areas.geojson';
 
 // Initialize leaflet.js
 var L = require('leaflet');
@@ -23,28 +23,24 @@ var osm_mapnik = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x
     zoomOffset: -1
 }).addTo(map);
 //add points from GeoJson and create popups
-var points =L.geoJSON(null,{
+var areas =L.geoJSON(null,{
     onEachFeature: function(feature, layer){
-        layer.bindPopup(`
-        <div>
+        layer.bindPopup(`<div>
         
-          <h1>${feature.properties.Site_Name}\n</h1>\n
-          <p>${feature.properties.Management}</p>
-          <div style="line-height:0.2">
-          <h4>Species Counts</h4>
-          <h5 style="font-weight: normal">
-          <p><a href="https://www.google.com/">Vascular plants:</a>  26</p>
-          <p><a href="https://www.google.com/">Invertebrates:</a>  38​</p>
-          <p><a href="https://www.google.com/">Trees:</a>  11</p> 
-          ​</h5>
-          <h4>Some nice finds</h4>
-          <a href="images/bumblebee.jpg" target="_blank"><img src="images/bumblebee.jpg"/
-          height=100px,
-          width=150px>
-          </a>
-          </div>
+        <h1>${feature.properties.Name}\n</h1>\n
+        <div style="line-height:1">
+        <h5 style="margin-bottom: 0 !important;font-weight: normal;">
+        <p ><a href="https://www.google.com/">Mowing plan:</a> ${feature.properties.Mowing}</p>
+        <p ><a href="https://www.google.com/">Herbicide use:</a>  ${feature.properties.Herbicide}</p>
+        <p ><a href="https://www.google.com/">Notes:</a>  ${feature.properties.Notes}</p> 
+        </h5>
+        <h4 style="margin: 0 !important;">Some nice finds</h4>
+        <a href="images/bumblebee.jpg" target="_blank"><img src="images/bumblebee.jpg"/
+        height=100px,
+        width=150px>
+        </a>
         </div>
-      `),
+      </div>`),
       {
         maxWidth : 2000,
         maxHeight : 2000
@@ -52,8 +48,8 @@ var points =L.geoJSON(null,{
       }
     }
 });
-$.getJSON(urlPoints, function(data) {
-    points.addData(data);
+$.getJSON(urlAreas, function(data) {
+    areas.addData(data);
 });
 // points.on('click', function(e) {
 //     map.flyTo(e.latlng, 15);      
@@ -64,33 +60,19 @@ map.on('popupopen', function(e) {
     map.panTo(map.unproject(px),{animate: true}); // pan to new center
 });
 
-//add lines from GeoJson
 
-var lines =L.geoJSON(null);
+// //add layers 
+// var baseMaps = {
+//     "OpenStreetMap": osm_mapnik
+// };
 
-$.getJSON(urlLines, function(data) {
-    lines.addData(data);
-});
+// var overlayMaps = {
+//     "Points": points,
+//     "Lines": lines,
+//     "Area": area
+// };
 
-//add area 
-var area =L.geoJSON(null);
-
-$.getJSON(urlArea, function(data) {
-    area.addData(data);
-});
-
-//add layers 
-var baseMaps = {
-    "OpenStreetMap": osm_mapnik
-};
-
-var overlayMaps = {
-    "Points": points,
-    "Lines": lines,
-    "Area": area
-};
-
-L.control.layers(baseMaps, overlayMaps, {
-    collapsed: false
-}).addTo(map);
-points.addTo(map);
+// L.control.layers(baseMaps, overlayMaps, {
+//     collapsed: false
+// }).addTo(map);
+areas.addTo(map);
