@@ -22,6 +22,21 @@ var osm_mapnik = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x
     tileSize: 512,
     zoomOffset: -1
 }).addTo(map);
+var osm_sat = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibmF6YXIta2hva2hsYSIsImEiOiJjbGoyc3IzNnkxYmZwM2t0ODRtamc0d3czIn0.3zs047MsmCySXuYpEeuJ0Q', {
+    maxZoom: 19,
+    attribution: '&copy; OSM Mapnik <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    id: 'mapbox/satellite-streets-v12',
+    tileSize: 512,
+    zoomOffset: -1
+});
+googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+    maxZoom: 19,
+    subdomains:['mt0','mt1','mt2','mt3']
+});
+var serviceUrl = 'https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+var credits = 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012 etc. etc. etc.';
+// not addTO(map)
+var arc= L.tileLayer(serviceUrl, { attribution: credits });
 //add points from GeoJson and create popups
 var areas =L.geoJSON(null,{
     onEachFeature: function(feature, layer){
@@ -62,17 +77,16 @@ map.on('popupopen', function(e) {
 
 
 // //add layers 
-// var baseMaps = {
-//     "OpenStreetMap": osm_mapnik
-// };
+var baseMaps = {
+    "Outdoors": osm_mapnik,
+    "Satellite": arc
+};
 
-// var overlayMaps = {
-//     "Points": points,
-//     "Lines": lines,
-//     "Area": area
-// };
+var overlayMaps = {
+    "Area": areas
+};
 
-// L.control.layers(baseMaps, overlayMaps, {
-//     collapsed: false
-// }).addTo(map);
+L.control.layers(baseMaps, overlayMaps, {
+    collapsed: false
+}).addTo(map);
 areas.addTo(map);
