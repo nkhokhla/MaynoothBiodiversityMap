@@ -1,5 +1,6 @@
 // import GeoJson
 var urlAreas = '/data/areas.geojson';
+var urlLines = '/data/lines.geojson';
 
 // Initialize leaflet.js
 var L = require('leaflet');
@@ -75,6 +76,17 @@ var areas =L.geoJSON(null,{
 $.getJSON(urlAreas, function(data) {
     areas.addData(data);
 });
+
+var myStyle = { // Define your style object
+  "color": "#ff0000"
+};
+var lines =L.geoJSON(null,{
+  style: myStyle
+});
+
+$.getJSON(urlLines, function(data) {
+    lines.addData(data);
+});
       
 map.on('popupopen', function(e) {
     var px = map.project(e.target._popup._latlng); // find the pixel location on the map where the popup anchor is
@@ -90,7 +102,8 @@ var baseMaps = {
 };
 
 var overlayMaps = {
-    "Area": areas
+    "Area": areas,
+    "Routes": lines
 };
 
 L.control.layers(baseMaps, overlayMaps, {
@@ -98,3 +111,4 @@ L.control.layers(baseMaps, overlayMaps, {
 }).addTo(map);
 
 areas.addTo(map);
+lines.addTo(map);
