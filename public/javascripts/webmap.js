@@ -14533,11 +14533,11 @@ var osm_mapnik = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x
     id: 'mapbox/outdoors-v12',
     tileSize: 512,
     zoomOffset: -1
-}).addTo(map);
+});
 
 var serviceUrl = 'https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 var credits = 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012 etc. etc. etc.';
-var arc= L.tileLayer(serviceUrl, { maxZoom: 19,attribution: credits});
+var arc= L.tileLayer(serviceUrl, { maxZoom: 19,attribution: credits}).addTo(map);
 //add points from GeoJson and create popups
 var areas =L.geoJSON(null,{
     onEachFeature: function(feature, layer){
@@ -14612,8 +14612,8 @@ map.on('popupopen', function(e) {
 
 // //add layers 
 var baseMaps = {
-    "Outdoors": osm_mapnik,
-    "Satellite": arc
+  "Satellite": arc,
+  "Outdoors": osm_mapnik
 };
 
 var overlayMaps = {
