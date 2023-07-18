@@ -76,6 +76,20 @@ var areas =L.geoJSON(null,{
 $.getJSON(urlAreas, function(data) {
     areas.addData(data);
 });
+// Get the URL parameter for the popup
+const urlParams = new URLSearchParams(window.location.search);
+const popupParam = urlParams.get('popup');
+
+// Check if the parameter is present and has a valid value
+if (popupParam === '1') {
+    // Open the first popup
+    // areas.getLayers()[0].openPopup();
+    console.log(areas.getLayers());
+} else if (popupParam === '2') {
+    // Open the second popup
+    areas.getLayers()[1].openPopup();
+}
+
 
 var myStyle = { // Define your style object
   "color": "#ff0000"
