@@ -1,6 +1,7 @@
 // import GeoJson
 var urlAreas = '/data/areas.geojson';
 var urlLines = '/data/lines.geojson';
+var urlBumblebee = '/data/bumblebee.geojson';
 var urlAreas6 = '/data/map.geojson';
 
 // Initialize leaflet.js
@@ -93,58 +94,17 @@ $.getJSON(urlAreas, function (data) {
   }
 });
 var myStyleAreas6 = { // Define your style object
-  "color": "#ffff00"
+  "color": "#00FFFF"
 };
 var areas6 = L.geoJSON(null, {
   style: myStyleAreas6,
   onEachFeature: function (feature, layer) {
-    if (feature.properties.More == null) {
-      layer.bindPopup(`<div>
-        
-        <h1>${feature.properties.Name}\n</h1>\n
-        <div style="line-height:1">
-        <h5 style="margin-bottom: 0 !important;font-weight: normal;">
-        <p >Mowing plan: ${feature.properties.Mowing}</p>
-        <p >Herbicide use: ${feature.properties.Herbicide}</p>
-        <p >Notes:  ${feature.properties.Notes}</p> 
-        </h5>
-        <h4 style="margin: 0 !important;">Some nice finds</h4>
-        <a href="images/bumblebee.jpg" target="_blank"><img src="images/bumblebee.jpg"/
-        height=100px,
-        width=150px>
-        </a>
-        </div>
-      </div>`),
+      layer.bindPopup(feature.properties.Description),
       {
         maxWidth: 2000,
         maxHeight: 2000
 
       }
-    }
-    else {
-      layer.bindPopup(`<div>
-        
-        <h1>${feature.properties.Name}\n</h1>\n
-        <div style="line-height:1">
-        <h5 style="margin-bottom: 0 !important;font-weight: normal;">
-        <p >Mowing plan: ${feature.properties.Mowing}</p>
-        <p >Herbicide use: ${feature.properties.Herbicide}</p>
-        <p >Notes:  ${feature.properties.Notes}</p> 
-        <p ><a href="${feature.properties.More}">More info</a></p> 
-        </h5>
-        <h4 style="margin: 0 !important;">Some nice finds</h4>
-        <a href="images/bumblebee.jpg" target="_blank"><img src="images/bumblebee.jpg"/
-        height=100px,
-        width=150px>
-        </a>
-        </div>
-      </div>`),
-      {
-        maxWidth: 2000,
-        maxHeight: 2000
-
-      }
-    }
   }
 });
 $.getJSON(urlAreas6, function (data) {
@@ -175,6 +135,16 @@ var lines = L.geoJSON(null, {
 $.getJSON(urlLines, function (data) {
   lines.addData(data);
 });
+var myStyleBumblebee = { 
+  "color": "#ffff00"
+};
+var bumblebee = L.geoJSON(null, {
+  style: myStyleBumblebee
+});
+
+$.getJSON(urlBumblebee, function (data) {
+  bumblebee.addData(data);
+});
 
 map.on('popupopen', function (e) {
   var px = map.project(e.target._popup._latlng); // find the pixel location on the map where the popup anchor is
@@ -192,7 +162,8 @@ var baseMaps = {
 var overlayMaps = {
   "Biodiversity areas": areas6,
   "All areas": areas,
-  "Routes": lines
+  "North Campus Biodiversity Loop": lines,
+  "North Campus Bumblebee Monitoring Route": bumblebee
 };
 
 L.control.layers(baseMaps, overlayMaps, {
