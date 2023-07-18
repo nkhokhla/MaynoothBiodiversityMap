@@ -14516,6 +14516,7 @@
 // import GeoJson
 var urlAreas = '/data/areas.geojson';
 var urlLines = '/data/lines.geojson';
+var urlAreas6 = '/data/map.geojson';
 
 // Initialize leaflet.js
 var L = require('leaflet');
@@ -14606,13 +14607,84 @@ $.getJSON(urlAreas, function (data) {
     }
   }
 });
+var myStyleAreas6 = { // Define your style object
+  "color": "#ffff00"
+};
+var areas6 = L.geoJSON(null, {
+  style: myStyleAreas6,
+  onEachFeature: function (feature, layer) {
+    if (feature.properties.More == null) {
+      layer.bindPopup(`<div>
+        
+        <h1>${feature.properties.Name}\n</h1>\n
+        <div style="line-height:1">
+        <h5 style="margin-bottom: 0 !important;font-weight: normal;">
+        <p >Mowing plan: ${feature.properties.Mowing}</p>
+        <p >Herbicide use: ${feature.properties.Herbicide}</p>
+        <p >Notes:  ${feature.properties.Notes}</p> 
+        </h5>
+        <h4 style="margin: 0 !important;">Some nice finds</h4>
+        <a href="images/bumblebee.jpg" target="_blank"><img src="images/bumblebee.jpg"/
+        height=100px,
+        width=150px>
+        </a>
+        </div>
+      </div>`),
+      {
+        maxWidth: 2000,
+        maxHeight: 2000
+
+      }
+    }
+    else {
+      layer.bindPopup(`<div>
+        
+        <h1>${feature.properties.Name}\n</h1>\n
+        <div style="line-height:1">
+        <h5 style="margin-bottom: 0 !important;font-weight: normal;">
+        <p >Mowing plan: ${feature.properties.Mowing}</p>
+        <p >Herbicide use: ${feature.properties.Herbicide}</p>
+        <p >Notes:  ${feature.properties.Notes}</p> 
+        <p ><a href="${feature.properties.More}">More info</a></p> 
+        </h5>
+        <h4 style="margin: 0 !important;">Some nice finds</h4>
+        <a href="images/bumblebee.jpg" target="_blank"><img src="images/bumblebee.jpg"/
+        height=100px,
+        width=150px>
+        </a>
+        </div>
+      </div>`),
+      {
+        maxWidth: 2000,
+        maxHeight: 2000
+
+      }
+    }
+  }
+});
+$.getJSON(urlAreas6, function (data) {
+  areas6.addData(data);
+
+  // Get the URL parameter for the popup
+  const urlParams = new URLSearchParams(window.location.search);
+  const popupParam = urlParams.get('popup');
+
+  // Check if the parameter is present and has a valid value
+  if (popupParam === '1') {
+    // Open the first popup
+    var firstLayer = areas6.getLayers()[0];
+    if (firstLayer) {
+      firstLayer.openPopup();
+    }
+  }
+});
 
 
-var myStyle = { // Define your style object
+var myStyleLines = { // Define your style object
   "color": "#ff0000"
 };
 var lines = L.geoJSON(null, {
-  style: myStyle
+  style: myStyleLines
 });
 
 $.getJSON(urlLines, function (data) {
@@ -14633,7 +14705,8 @@ var baseMaps = {
 };
 
 var overlayMaps = {
-  "Area": areas,
+  "Biodiversity areas": areas6,
+  "All areas": areas,
   "Routes": lines
 };
 
@@ -14641,6 +14714,6 @@ L.control.layers(baseMaps, overlayMaps, {
   collapsed: false
 }).addTo(map);
 
-areas.addTo(map);
+areas6.addTo(map);
 lines.addTo(map);
 },{"leaflet":1}]},{},[2]);
