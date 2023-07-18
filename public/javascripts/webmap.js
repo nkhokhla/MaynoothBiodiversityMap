@@ -14528,21 +14528,21 @@ map.setView([53.3822, -6.5982], 15.7);
 
 // Initialize the base layers
 var osm_mapnik = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibmF6YXIta2hva2hsYSIsImEiOiJjbGoyc3IzNnkxYmZwM2t0ODRtamc0d3czIn0.3zs047MsmCySXuYpEeuJ0Q', {
-    maxZoom: 19,
-    attribution: '&copy; OSM Mapnik <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    id: 'mapbox/outdoors-v12',
-    tileSize: 512,
-    zoomOffset: -1
+  maxZoom: 19,
+  attribution: '&copy; OSM Mapnik <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  id: 'mapbox/outdoors-v12',
+  tileSize: 512,
+  zoomOffset: -1
 });
 
 var serviceUrl = 'https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 var credits = 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012 etc. etc. etc.';
-var arc= L.tileLayer(serviceUrl, { maxZoom: 19,attribution: credits}).addTo(map);
+var arc = L.tileLayer(serviceUrl, { maxZoom: 19, attribution: credits }).addTo(map);
 //add points from GeoJson and create popups
-var areas =L.geoJSON(null,{
-    onEachFeature: function(feature, layer){
-        if(feature.properties.More== null){
-        layer.bindPopup(`<div>
+var areas = L.geoJSON(null, {
+  onEachFeature: function (feature, layer) {
+    if (feature.properties.More == null) {
+      layer.bindPopup(`<div>
         
         <h1>${feature.properties.Name}\n</h1>\n
         <div style="line-height:1">
@@ -14559,12 +14559,13 @@ var areas =L.geoJSON(null,{
         </div>
       </div>`),
       {
-        maxWidth : 2000,
-        maxHeight : 2000
-        
-      }}
-      else{
-        layer.bindPopup(`<div>
+        maxWidth: 2000,
+        maxHeight: 2000
+
+      }
+    }
+    else {
+      layer.bindPopup(`<div>
         
         <h1>${feature.properties.Name}\n</h1>\n
         <div style="line-height:1">
@@ -14582,45 +14583,46 @@ var areas =L.geoJSON(null,{
         </div>
       </div>`),
       {
-        maxWidth : 2000,
-        maxHeight : 2000
-        
-      }}
-    }
-});
-$.getJSON(urlAreas, function(data) {
-    areas.addData(data);
-});
-// Get the URL parameter for the popup
-const urlParams = new URLSearchParams(window.location.search);
-const popupParam = urlParams.get('popup');
+        maxWidth: 2000,
+        maxHeight: 2000
 
-// Check if the parameter is present and has a valid value
-if (popupParam === '1') {
+      }
+    }
+  }
+});
+$.getJSON(urlAreas, function (data) {
+  areas.addData(data);
+
+  // Get the URL parameter for the popup
+  const urlParams = new URLSearchParams(window.location.search);
+  const popupParam = urlParams.get('popup');
+
+  // Check if the parameter is present and has a valid value
+  if (popupParam === '1') {
     // Open the first popup
-    // areas.getLayers()[0].openPopup();
-    console.log(areas.getLayers());
-} else if (popupParam === '2') {
-    // Open the second popup
-    areas.getLayers()[1].openPopup();
-}
+    var firstLayer = areas.getLayers()[0];
+    if (firstLayer) {
+      firstLayer.openPopup();
+    }
+  }
+});
 
 
 var myStyle = { // Define your style object
   "color": "#ff0000"
 };
-var lines =L.geoJSON(null,{
+var lines = L.geoJSON(null, {
   style: myStyle
 });
 
-$.getJSON(urlLines, function(data) {
-    lines.addData(data);
+$.getJSON(urlLines, function (data) {
+  lines.addData(data);
 });
-      
-map.on('popupopen', function(e) {
-    var px = map.project(e.target._popup._latlng); // find the pixel location on the map where the popup anchor is
-    px.y -= e.target._popup._container.clientHeight/2; // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
-    map.panTo(map.unproject(px),{animate: true}); // pan to new center
+
+map.on('popupopen', function (e) {
+  var px = map.project(e.target._popup._latlng); // find the pixel location on the map where the popup anchor is
+  px.y -= e.target._popup._container.clientHeight / 2; // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
+  map.panTo(map.unproject(px), { animate: true }); // pan to new center
 });
 
 
@@ -14631,12 +14633,12 @@ var baseMaps = {
 };
 
 var overlayMaps = {
-    "Area": areas,
-    "Routes": lines
+  "Area": areas,
+  "Routes": lines
 };
 
 L.control.layers(baseMaps, overlayMaps, {
-    collapsed: false
+  collapsed: false
 }).addTo(map);
 
 areas.addTo(map);
