@@ -14614,12 +14614,23 @@ var myStyleAreas6 = { // Define your style object
 var areas6 = L.geoJSON(null, {
   style: myStyleAreas6,
   onEachFeature: function (feature, layer) {
-      layer.bindPopup(feature.properties.Description),
-      {
-        maxWidth: 2000,
-        maxHeight: 2000
+    layer.bindPopup(`
+    <h1>${feature.properties.Name}\n</h1>\
+      ${feature.properties.Description}
+      <div style="display: flex;">
+          <a href="images/${feature.properties.ph1}" target="_blank" style="margin-right: 10px;">
+              <img src="images/${feature.properties.ph1}" height=100px width=150px>
+          </a>
+          <a href="images/${feature.properties.ph2}" target="_blank">
+              <img src="images/${feature.properties.ph2}" height=100px width=150px>
+          </a>
+      </div>
+      `),
+    {
+      maxWidth: 2000,
+      maxHeight: 2000
 
-      }
+    }
   }
 });
 $.getJSON(urlAreas6, function (data) {
@@ -14650,7 +14661,7 @@ var lines = L.geoJSON(null, {
 $.getJSON(urlLines, function (data) {
   lines.addData(data);
 });
-var myStyleBumblebee = { 
+var myStyleBumblebee = {
   "color": "#ffff00"
 };
 var bumblebee = L.geoJSON(null, {

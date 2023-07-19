@@ -5,7 +5,9 @@
             "type": "Feature",
             "properties": {
                 "Name": "Kilcock Rd Woodland & Meadow",
-                "Amount": ""
+                "ph1": "wd1.jpg",
+                "Description": "",
+                "ph2": "wd2.jpg"
             },
             "geometry": {
                 "coordinates": [
@@ -75,7 +77,10 @@
         {
             "type": "Feature",
             "properties": {
-                "Name": "Edible Garden"
+                "Name": "Edible Garden",
+                "ph1": "eg1.jpg",
+                "Description": "",
+                "ph2": "eg2.jpg"
             },
             "geometry": {
                 "coordinates": [
@@ -110,7 +115,7 @@
             "type": "Feature",
             "properties": {
                 "Name": "Arts & Hume Corridor ",
-                "Mowing": ""
+                "ph1": ""
             },
             "geometry": {
                 "coordinates": [
@@ -168,7 +173,10 @@
         {
             "type": "Feature",
             "properties": {
-                "Name": "Student Union Meadows"
+                "Name": "Student Union Meadows",
+                "ph1": "su1.jpg",
+                "Description": "",
+                "ph2": "su2.jpg"
             },
             "geometry": {
                 "coordinates": [
@@ -265,7 +273,10 @@
         {
             "type": "Feature",
             "properties": {
-                "Name": "Phoenix Meadow & Courtyard"
+                "Name": "Phoenix Meadow & Courtyard",
+                "ph1": "ph1.jpg",
+                "Description": "",
+                "ph2": "ph2.jpg"
             },
             "geometry": {
                 "coordinates": [
@@ -315,7 +326,10 @@
         {
             "type": "Feature",
             "properties": {
-                "Name": "TSI Front"
+                "Name": "TSI Front",
+                "Description": "",
+                "ph1": "tsi1.jpg",
+                "ph2": "tsi2.jpg"
             },
             "geometry": {
                 "coordinates": [
@@ -350,12 +364,9 @@
             "type": "Feature",
             "properties": {
                 "Name": "Courtyard Meadows",
-                "Mowing": "Cut once a year usually in October . Allowed to grow for the entire season with minimal interference ",
-                "Herbicide": "2023- Weed Control on Hard surfaces via Acetic Acid",
-                "Notes": "Planted meadow -  Native Irish seed. Sown – 18/05/2017",
-                "More": "https://quicknote.io/8fb42fc0-218d-11ee-957d-0f4213936ca1",
-                "Amount": 3,
-                "Description": "<p>The site became available when the new Courtyard Apartments were built and it was decided in 2017 to plant the available areas with wildflower seed mixes details of which can be found <a href='https://quicknote.io/270ae500-2579-11ee-8aae-437b5918a6c1'>here</a>.</p><p>Over the past number of years, the site has developed well and is rich in X, Y and Z plant species and has an abundance of visiting pollinators including bumblebees, hoverflies and butterflies. For a recent survey of the bumblebees see the following <a href='https://quicknote.io/6a256ee0-257a-11ee-8aae-437b5918a6c1'>link</a>.</p><p>In 2021 some of the meadow was used to house an outdoor gym including a basketball net, exercise equipment and exercise area.</p><p>Mowing plan: Cut once a year usually in October. Allowed to grow for the entire season with minimal interference</p><p>Herbicide use: 2023- Weed Control on Hard surfaces via Acetic Acid </p>"
+                "Description": "<p>The site became available when the new Courtyard Apartments were built and it was decided in 2017 to plant the available areas with wildflower seed mixes details of which can be found <a href='https://quicknote.io/270ae500-2579-11ee-8aae-437b5918a6c1'>here</a>.</p><p>Over the past number of years, the site has developed well and is rich in X, Y and Z plant species and has an abundance of visiting pollinators including bumblebees, hoverflies and butterflies. For a recent survey of the bumblebees see the following <a href='https://quicknote.io/6a256ee0-257a-11ee-8aae-437b5918a6c1'>link</a>.</p><p>In 2021 some of the meadow was used to house an outdoor gym including a basketball net, exercise equipment and exercise area.</p><p>Mowing plan: Cut once a year usually in October. Allowed to grow for the entire season with minimal interference</p><p>Herbicide use: 2023- Weed Control on Hard surfaces via Acetic Acid </p><p><b>Some nice finds</b></p>",
+                "ph1": "cy1.jpg",
+                "ph2": "cy2.jpg"
             },
             "geometry": {
                 "coordinates": [
@@ -394,9 +405,9 @@
             "type": "Feature",
             "properties": {
                 "Name": "AstroPitch Meadow",
-                "Mowing": "Cut roughly every 6 – 8 weeks to a height of 5- 6 inches  . Final cut of the meadow occurs in Sept/Oct time.",
-                "Herbicide": "None in this area",
-                "Notes": "Meadow has lots of thistle and Dock in the sward , can look unsightly hence the 6-8 week cutting intervals"
+                "Description": "<p>This AstroPitch meadow has a 60m stand of Hawthorne that provides excellent forage for hoverflies and solitary bees in Spring. In 2019 the site was seeded with a wildflower mix and is now abundant in Ox-Eye Daisy, Cowslip, Yarrow and ragworth. The sit is a stop on the North Campus Biodiversity Loop and the MU Bumblebee monitoring Route.  For a recent survey of the bumblebees see the following <a href=\"https://quicknote.io/03cde8f0-261c-11ee-85c7-a758b0939d73\">link</a></p><p>Mowing Plan: Cut roughly every 6 – 8 weeks to a height of 5- 6 inches. Final cut of the meadow occurs in Sept/Oct time.</p><p>Some nice finds</p>",
+                "ph1": "ap1.jpg",
+                "ph2": "ap2.jpg"
             },
             "geometry": {
                 "coordinates": [
@@ -454,7 +465,9 @@
             "type": "Feature",
             "properties": {
                 "Name": "Callan Meadows",
-                "Mowing": ""
+                "ph1": "cm1.jpg",
+                "Description": "",
+                "ph2": "cm2.jpg"
             },
             "geometry": {
                 "coordinates": [
