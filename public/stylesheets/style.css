@@ -17,3 +17,6 @@ body {
   font-size: 24px;
   z-index: 800;
 }
+.leaflet-popup-content { 
+  width:auto !important; 
+}

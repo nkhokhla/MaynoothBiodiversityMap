@@ -102,22 +102,23 @@ var areas6 = L.geoJSON(null, {
     layer.bindPopup(`
     <h1>${feature.properties.Name}\n</h1>\
       ${feature.properties.Description}
-      <div style="display: flex;">
+      <div style="display: flex; width:420px !important">
           <a href="images/${feature.properties.ph1}" target="_blank" style="margin-right: 10px;">
-              <img src="images/${feature.properties.ph1}" height=100px width=150px>
+              <img class="img-in-popup" src="images/${feature.properties.ph1}" height=100px width=150px>
           </a>
           <a href="images/${feature.properties.ph2}" target="_blank">
-              <img src="images/${feature.properties.ph2}" height=100px width=150px>
+              <img class="img-in-popup" src="images/${feature.properties.ph2}" height=100px width=150px>
           </a>
       </div>
       `),
     {
-      maxWidth: 2000,
-      maxHeight: 2000
+      minWidth: 2000,
+      maxHeight: 300
 
     }
   }
 });
+
 $.getJSON(urlAreas6, function (data) {
   areas6.addData(data);
 
@@ -158,6 +159,10 @@ $.getJSON(urlBumblebee, function (data) {
 });
 
 map.on('popupopen', function (e) {
+  $('img.img-in-popup').on('load', function () {
+    e.popup.update()
+    console.log('image loaded')
+  })
   var px = map.project(e.target._popup._latlng); // find the pixel location on the map where the popup anchor is
   px.y -= e.target._popup._container.clientHeight / 2; // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
   map.panTo(map.unproject(px), { animate: true }); // pan to new center
