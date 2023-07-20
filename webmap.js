@@ -26,57 +26,7 @@ var serviceUrl = 'https://server.arcgisonline.com/arcgis/rest/services/World_Ima
 var credits = 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012 etc. etc. etc.';
 var arc = L.tileLayer(serviceUrl, { maxZoom: 19, attribution: credits }).addTo(map);
 //add points from GeoJson and create popups
-var areas = L.geoJSON(null, {
-  onEachFeature: function (feature, layer) {
-    if (feature.properties.More == null) {
-      layer.bindPopup(`<div>
-        
-        <h1>${feature.properties.Name}\n</h1>\n
-        <div style="line-height:1">
-        <h5 style="margin-bottom: 0 !important;font-weight: normal;">
-        <p >Mowing plan: ${feature.properties.Mowing}</p>
-        <p >Herbicide use: ${feature.properties.Herbicide}</p>
-        <p >Notes:  ${feature.properties.Notes}</p> 
-        </h5>
-        <h4 style="margin: 0 !important;">Some nice finds</h4>
-        <a href="images/bumblebee.jpg" target="_blank"><img src="images/bumblebee.jpg"/
-        height=100px,
-        width=150px>
-        </a>
-        </div>
-      </div>`),
-      {
-        maxWidth: 2000,
-        maxHeight: 2000
-
-      }
-    }
-    else {
-      layer.bindPopup(`<div>
-        
-        <h1>${feature.properties.Name}\n</h1>\n
-        <div style="line-height:1">
-        <h5 style="margin-bottom: 0 !important;font-weight: normal;">
-        <p >Mowing plan: ${feature.properties.Mowing}</p>
-        <p >Herbicide use: ${feature.properties.Herbicide}</p>
-        <p >Notes:  ${feature.properties.Notes}</p> 
-        <p ><a href="${feature.properties.More}">More info</a></p> 
-        </h5>
-        <h4 style="margin: 0 !important;">Some nice finds</h4>
-        <a href="images/bumblebee.jpg" target="_blank"><img src="images/bumblebee.jpg"/
-        height=100px,
-        width=150px>
-        </a>
-        </div>
-      </div>`),
-      {
-        maxWidth: 2000,
-        maxHeight: 2000
-
-      }
-    }
-  }
-});
+var areas = L.geoJSON(null);
 $.getJSON(urlAreas, function (data) {
   areas.addData(data);
 
