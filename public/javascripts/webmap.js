@@ -14569,10 +14569,10 @@ var areas6 = L.geoJSON(null, {
       ${feature.properties.Description}
       <div style="display: flex; width:420px !important">
           <a href="images/${feature.properties.ph1}" target="_blank" style="margin-right: 10px;">
-              <img class="img-in-popup" src="images/${feature.properties.ph1}" height=100px width=150px>
+              <img class="img-in-popup" src="images/${feature.properties.ph1}" height=140px width=200px>
           </a>
           <a href="images/${feature.properties.ph2}" target="_blank">
-              <img class="img-in-popup" src="images/${feature.properties.ph2}" height=100px width=150px>
+              <img class="img-in-popup" src="images/${feature.properties.ph2}" height=140px width=200px>
           </a>
       </div>
       `),
