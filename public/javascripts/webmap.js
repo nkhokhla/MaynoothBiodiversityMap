@@ -15013,7 +15013,7 @@ map.setView([53.3822, -6.5982], 15.7);
 
 // Initialize the base layers
 var osm_mapnik = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibmF6YXIta2hva2hsYSIsImEiOiJjbGoyc3IzNnkxYmZwM2t0ODRtamc0d3czIn0.3zs047MsmCySXuYpEeuJ0Q', {
-  maxZoom: 19,
+  maxZoom: 27,
   attribution: '&copy; OSM Mapnik <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   id: 'mapbox/outdoors-v12',
   tileSize: 512,
@@ -15022,7 +15022,24 @@ var osm_mapnik = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x
 
 var serviceUrl = 'https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 var credits = 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012 etc. etc. etc.';
-var arc = L.tileLayer(serviceUrl, { maxZoom: 19, attribution: credits }).addTo(map);
+var arc = L.tileLayer(serviceUrl, { maxZoom: 27, attribution: credits }).addTo(map);
+map.locate({setView: true, maxZoom: 19});
+function onLocationFound(e) {
+  var radius = e.accuracy;
+
+  L.marker(e.latlng).addTo(map)
+      .bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+  L.circle(e.latlng, radius).addTo(map);
+}
+
+map.on('locationfound', onLocationFound);
+
+function onLocationError(e) {
+  alert(e.message);
+}
+
+map.on('locationerror', onLocationError);
 //add points from GeoJson and create popups
 var areas = L.geoJSON(null);
 $.getJSON(urlAreas, function (data) {
