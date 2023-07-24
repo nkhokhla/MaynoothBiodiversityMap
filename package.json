@@ -4,14 +4,17 @@
   "private": true,
   "scripts": {
     "start": "npm run build & node ./bin/www",
-    "dev":"nodemon --exec \"npm start\" -e html,js,css,json --ignore node_modules/ --ignore public/",
-    "build": "browserify webmap.js -o public/javascripts/webmap.js & cp node_modules/leaflet/dist/leaflet.css public/stylesheets/leaflet.css & cp node_modules/leaflet/dist/images/* public/stylesheets/images"
+    "dev": "nodemon --exec \"npm start\" -e html,js,css,json --ignore node_modules/ --ignore public/",
+    "build": "browserify webmap.js -o public/javascripts/webmap.js & cp node_modules/leaflet/dist/leaflet.css public/stylesheets/leaflet.css & cp node_modules/leaflet/dist/images/* public/stylesheets/images & cp node_modules/leaflet/dist/leaflet.js public/javascripts/leaflet.js & cp node_modules/leaflet-polylinedecorator/dist/leaflet.polylineDecorator.js public/javascripts/leaflet.polylineDecorator.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "leaflet": "^1.9.4",
+    "leaflet-arrowheads": "^1.4.0",
+    "leaflet-geometryutil": "^0.10.2",
+    "leaflet-polylinedecorator": "^1.6.0",
     "live-server": "^1.2.2",
     "morgan": "~1.9.1"
   }

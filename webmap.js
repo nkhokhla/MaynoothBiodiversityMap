@@ -1,11 +1,14 @@
+// import 'leaflet-arrowheads';
 // import GeoJson
 var urlAreas = '/data/areas.geojson';
 var urlLines = '/data/lines.geojson';
 var urlBumblebee = '/data/bumblebee.geojson';
 var urlAreas6 = '/data/map.geojson';
+var urlPoints = '/data/stops.geojson';
 
 // Initialize leaflet.js
 var L = require('leaflet');
+var polylineDecorator = require('leaflet-polylinedecorator');
 
 // Initialize the map
 var map = L.map('map');
@@ -29,48 +32,33 @@ var arc = L.tileLayer(serviceUrl, { maxZoom: 19, attribution: credits }).addTo(m
 var areas = L.geoJSON(null);
 $.getJSON(urlAreas, function (data) {
   areas.addData(data);
-
-  // Get the URL parameter for the popup
-  const urlParams = new URLSearchParams(window.location.search);
-  const popupParam = urlParams.get('popup');
-
-  // Check if the parameter is present and has a valid value
-  if (popupParam === '1') {
-    // Open the first popup
-    var firstLayer = areas.getLayers()[0];
-    if (firstLayer) {
-      firstLayer.openPopup();
-    }
-  }
 });
+
+
+
+
+
+
+var stopsOverlays = L.layerGroup();
+var routeOverlays = L.layerGroup();
+
+
+
 var myStyleAreas6 = { // Define your style object
   "color": "#00FFFF"
 };
 var areas6 = L.geoJSON(null, {
-  style: myStyleAreas6,
-  onEachFeature: function (feature, layer) {
-    layer.bindPopup(`
-    <h1>${feature.properties.Name}\n</h1>\
-      ${feature.properties.Description}
-      <div style="display: flex; width:420px !important">
-          <a href="images/${feature.properties.ph1}" target="_blank" style="margin-right: 10px;">
-              <img class="img-in-popup" src="images/${feature.properties.ph1}" height=140px width=200px>
-          </a>
-          <a href="images/${feature.properties.ph2}" target="_blank">
-              <img class="img-in-popup" src="images/${feature.properties.ph2}" height=140px width=200px>
-          </a>
-      </div>
-      `),
-    {
-      minWidth: 2000,
-      maxHeight: 300
-
-    }
-  }
-});
+  style: myStyleAreas6
+}).addTo(stopsOverlays);
+var marker = L.marker([53.3827, -6.6007], { title: "START HERE" }).addTo(routeOverlays);
 
 $.getJSON(urlAreas6, function (data) {
   areas6.addData(data);
+ 
+  // marker.bindPopup("<b>Hello world!</b><br>I am a popup.");
+  // marker.on('mouseover',function() {
+  //   marker.openPopup();
+  // });
 
   // Get the URL parameter for the popup
   const urlParams = new URLSearchParams(window.location.search);
@@ -87,16 +75,25 @@ $.getJSON(urlAreas6, function (data) {
 });
 
 
+
 var myStyleLines = { // Define your style object
   "color": "#ff0000"
 };
 var lines = L.geoJSON(null, {
   style: myStyleLines
-});
+}).addTo(routeOverlays);
 
 $.getJSON(urlLines, function (data) {
   lines.addData(data);
+  var line =lines.getLayers()[0];
+  L.polylineDecorator(line, {
+    patterns: [
+        {offset: 25, repeat: 50, symbol: L.Symbol.arrowHead({pixelSize: 7, polygon: false, pathOptions: {stroke: true, color: 'red', weight: 5}})}
+          ]
+}).addTo(routeOverlays);
 });
+
+
 var myStyleBumblebee = {
   "color": "#ffff00"
 };
@@ -107,6 +104,31 @@ var bumblebee = L.geoJSON(null, {
 $.getJSON(urlBumblebee, function (data) {
   bumblebee.addData(data);
 });
+var points = L.geoJSON(null, {
+  onEachFeature: function (feature, layer) {
+    layer.bindPopup(`
+    <h1>${feature.properties.Name}\n</h1>\
+      ${feature.properties.Description}
+      <div style="display: flex; width:420px !important">
+          <a href="images/${feature.properties.ph1}" target="_blank" style="margin-right: 10px;">
+              <img class="img-in-popup" src="images/${feature.properties.ph1}" height=140px width=200px>
+          </a>
+          <a href="images/${feature.properties.ph2}" target="_blank">
+              <img class="img-in-popup" src="images/${feature.properties.ph2}" height=140px width=200px>
+          </a>
+      </div>
+      `),
+    {
+      minWidth: 2000,
+      maxHeight: 2000
+
+    }
+  }
+}).addTo(stopsOverlays);
+$.getJSON(urlPoints, function (data) {
+  points.addData(data);
+});
+
 
 map.on('popupopen', function (e) {
   $('img.img-in-popup').on('load', function () {
@@ -126,9 +148,9 @@ var baseMaps = {
 };
 
 var overlayMaps = {
-  "Biodiversity areas": areas6,
+  "Biodiversity areas": stopsOverlays,
   "All areas": areas,
-  "North Campus Biodiversity Loop": lines,
+  "North Campus Biodiversity Loop": routeOverlays,
   "North Campus Bumblebee Monitoring Route": bumblebee
 };
 
@@ -136,5 +158,5 @@ L.control.layers(baseMaps, overlayMaps, {
   collapsed: false
 }).addTo(map);
 
-areas6.addTo(map);
-lines.addTo(map);
+stopsOverlays.addTo(map);
+routeOverlays.addTo(map);
