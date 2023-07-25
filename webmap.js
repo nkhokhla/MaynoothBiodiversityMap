@@ -5,6 +5,7 @@ var urlLines = '/data/lines.geojson';
 var urlBumblebee = '/data/bumblebee.geojson';
 var urlAreas6 = '/data/map.geojson';
 var urlPoints = '/data/stops.geojson';
+var urlSouth = '/data/south.geojson';
 
 // Initialize leaflet.js
 var L = require('leaflet');
@@ -18,7 +19,7 @@ map.setView([53.3822, -6.5982], 15.7);
 
 // Initialize the base layers
 var osm_mapnik = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibmF6YXIta2hva2hsYSIsImEiOiJjbGoyc3IzNnkxYmZwM2t0ODRtamc0d3czIn0.3zs047MsmCySXuYpEeuJ0Q', {
-  maxZoom: 27,
+  maxZoom: 19,
   attribution: '&copy; OSM Mapnik <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   id: 'mapbox/outdoors-v12',
   tileSize: 512,
@@ -27,7 +28,7 @@ var osm_mapnik = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x
 
 var serviceUrl = 'https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 var credits = 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012 etc. etc. etc.';
-var arc = L.tileLayer(serviceUrl, { maxZoom: 27, attribution: credits }).addTo(map);
+var arc = L.tileLayer(serviceUrl, { maxZoom: 19, attribution: credits }).addTo(map);
 map.locate({setView: true, maxZoom: 19});
 function onLocationFound(e) {
   var radius = e.accuracy;
@@ -71,6 +72,8 @@ var marker = L.marker([53.3827, -6.6007], { title: "START HERE" }).addTo(routeOv
 
 $.getJSON(urlAreas6, function (data) {
   areas6.addData(data);
+
+
  
   // marker.bindPopup("<b>Hello world!</b><br>I am a popup.");
   // marker.on('mouseover',function() {
@@ -90,6 +93,12 @@ $.getJSON(urlAreas6, function (data) {
     }
   }
 });
+var south = L.geoJSON(null, {
+  style: myStyleAreas6
+}).addTo(stopsOverlays);
+
+$.getJSON(urlSouth, function (data) {
+  south.addData(data);});
 
 
 
