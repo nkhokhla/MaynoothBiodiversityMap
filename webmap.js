@@ -12,7 +12,12 @@ var L = require('leaflet');
 var polylineDecorator = require('leaflet-polylinedecorator');
 
 // Initialize the map
-var map = L.map('map');
+var map = L.map('map', {
+  zoomControl: false
+});
+L.control.zoom({
+  position: 'bottomright'
+}).addTo(map);
 
 // Set the position and zoom level of the map
 map.setView([53.3822, -6.5982], 15.7);
@@ -29,23 +34,8 @@ var osm_mapnik = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x
 var serviceUrl = 'https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 var credits = 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012 etc. etc. etc.';
 var arc = L.tileLayer(serviceUrl, { maxZoom: 19, attribution: credits }).addTo(map);
-map.locate({setView: true, maxZoom: 19});
-function onLocationFound(e) {
-  var radius = e.accuracy;
 
-  L.marker(e.latlng).addTo(map)
-      .bindPopup("You are within " + radius + " meters from this point").openPopup();
 
-  L.circle(e.latlng, radius).addTo(map);
-}
-
-map.on('locationfound', onLocationFound);
-
-function onLocationError(e) {
-  alert(e.message);
-}
-
-map.on('locationerror', onLocationError);
 //add points from GeoJson and create popups
 var areas = L.geoJSON(null);
 $.getJSON(urlAreas, function (data) {
@@ -130,22 +120,61 @@ var bumblebee = L.geoJSON(null, {
 $.getJSON(urlBumblebee, function (data) {
   bumblebee.addData(data);
 });
+const windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+const windowArea = windowWidth * windowHeight;
+
 var points = L.geoJSON(null, {
   onEachFeature: function (feature, layer) {
-    layer.bindPopup(`
-    <h1>${feature.properties.Name}\n</h1>\
-      ${feature.properties.Description}
-      <div style="display: flex; width:420px !important">
-          <a href="images/${feature.properties.ph1}" target="_blank" style="margin-right: 10px;">
-              <img class="img-in-popup" src="images/${feature.properties.ph1}" height=140px width=200px>
-          </a>
-          <a href="images/${feature.properties.ph2}" target="_blank">
-              <img class="img-in-popup" src="images/${feature.properties.ph2}" height=140px width=200px>
-          </a>
-      </div>
-      `),
+     // leaflet-top elements
+     const leafletTopElements = document.querySelectorAll('div.leaflet-top');
+     // leaflet-bottom elements
+     const leafletBottomElements = document.querySelectorAll('div.leaflet-bottom');
+     const name = document.getElementById('map-title');
+     layer.on('popupopen', function() {
+      name.style.visibility = 'hidden';
+    });if (windowArea > 505000 ) {
+    layer.on('popupclose', function() {
+      name.style.visibility = 'visible';
+    });}
+     // Pop-up control for small screen sizes
+     if (windowArea < 505000 ) {
+         // Hide leaflet controls when pop-up opens
+         layer.on('popupopen', function() {
+             leafletTopElements.forEach(function(element) {
+              element.style.visibility = 'hidden';
+             });
+
+             leafletBottomElements.forEach(function(element) {
+              element.style.visibility = 'hidden';
+             });                               
+         });            
+         // Display Leaflet controls when pop-up closes
+         layer.on('popupclose', function() {
+             leafletTopElements.forEach(function(element) {
+              element.style.visibility = 'visible';
+             });
+          
+
+             leafletBottomElements.forEach(function(element) {
+              element.style.visibility = 'visible';
+             });                              
+         });
+  }
+  layer.bindPopup(`
+  <h1>${feature.properties.Name}\n</h1>\
+    ${feature.properties.Description}
+    <div style="display: flex; ${window.innerWidth > 600 ? 'width:420px !important' : ''}">
+        <a href="images/${feature.properties.ph1}" target="_blank" style="margin-right: ${window.innerWidth > 600 ? 10 : 3}px;">
+            <img class="img-in-popup" src="images/${feature.properties.ph1}" width=${window.innerWidth > 600 ? '200px' : '100%'}>
+        </a>
+        <a href="images/${feature.properties.ph2}" target="_blank">
+            <img class="img-in-popup" src="images/${feature.properties.ph2}" width=${window.innerWidth > 600 ? '200px' : '100%'}>
+        </a>
+    </div>
+`),
     {
-      minWidth: 2000,
+      maxWidth: 350,
       maxHeight: 2000
 
     }
@@ -155,6 +184,7 @@ $.getJSON(urlPoints, function (data) {
   points.addData(data);
 });
 
+// if(window.innerWidth > 600){
 
 map.on('popupopen', function (e) {
   $('img.img-in-popup').on('load', function () {
@@ -165,7 +195,7 @@ map.on('popupopen', function (e) {
   px.y -= e.target._popup._container.clientHeight / 2; // find the height of the popup container, divide by 2, subtract from the Y axis of marker location
   map.panTo(map.unproject(px), { animate: true }); // pan to new center
 });
-
+// }
 
 // //add layers 
 var baseMaps = {
