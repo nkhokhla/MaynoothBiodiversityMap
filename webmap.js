@@ -104,7 +104,7 @@ $.getJSON(urlLines, function (data) {
   var line =lines.getLayers()[0];
   L.polylineDecorator(line, {
     patterns: [
-        {offset: 25, repeat: 50, symbol: L.Symbol.arrowHead({pixelSize: 7, polygon: false, pathOptions: {stroke: true, color: 'red', weight: 5}})}
+        {offset: 25, repeat: 50, symbol: L.Symbol.arrowHead({pixelSize: 7, polygon: false, pathOptions: {stroke: true, color: 'red', weight: 5}, headAngle: 270})}
           ]
 }).addTo(routeOverlays);
 });
