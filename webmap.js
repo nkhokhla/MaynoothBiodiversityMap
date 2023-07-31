@@ -70,18 +70,7 @@ $.getJSON(urlAreas6, function (data) {
   //   marker.openPopup();
   // });
 
-  // Get the URL parameter for the popup
-  const urlParams = new URLSearchParams(window.location.search);
-  const popupParam = urlParams.get('popup');
 
-  // Check if the parameter is present and has a valid value
-  if (popupParam === '1') {
-    // Open the first popup
-    var firstLayer = areas6.getLayers()[0];
-    if (firstLayer) {
-      firstLayer.openPopup();
-    }
-  }
 });
 var south = L.geoJSON(null, {
   style: myStyleAreas6
@@ -104,7 +93,7 @@ $.getJSON(urlLines, function (data) {
   var line =lines.getLayers()[0];
   L.polylineDecorator(line, {
     patterns: [
-        {offset: 25, repeat: 50, symbol: L.Symbol.arrowHead({pixelSize: 7, polygon: false, pathOptions: {stroke: true, color: 'red', weight: 5}})}
+        {offset: 25, repeat: 50, symbol: L.Symbol.arrowHead({pixelSize: 7, polygon: false, pathOptions: {stroke: true, color: 'red', weight: 5}, headAngle: 270})}
           ]
 }).addTo(routeOverlays);
 });
@@ -182,7 +171,25 @@ var points = L.geoJSON(null, {
 }).addTo(stopsOverlays);
 $.getJSON(urlPoints, function (data) {
   points.addData(data);
+    // Get the URL parameter for the popup
+    const urlParams = new URLSearchParams(window.location.search);
+    const popupParam = urlParams.get('popup');
+  
+    // Check if the parameter is present and has a valid value
+    if(popupParam && popupParam.length > 0) {
+      console.log(popupParam);
+      // Get the layer by the popupParam value
+      const layer = points.getLayers()[popupParam];
+  
+      // Check if the layer was found
+      if(layer) {
+        // Open the popup
+        layer.openPopup();
+      }
+    }
+      
 });
+    
 
 // if(window.innerWidth > 600){
 
