@@ -56,7 +56,61 @@ var myStyleAreas6 = { // Define your style object
   "color": "#00FFFF"
 };
 var areas6 = L.geoJSON(null, {
-  style: myStyleAreas6
+  style: myStyleAreas6,
+  onEachFeature: function (feature, layer) {
+    // leaflet-top elements
+    const leafletTopElements = document.querySelectorAll('div.leaflet-top');
+    // leaflet-bottom elements
+    const leafletBottomElements = document.querySelectorAll('div.leaflet-bottom');
+    const name = document.getElementById('map-title');
+    layer.on('popupopen', function() {
+     name.style.visibility = 'hidden';
+   });if (windowArea > 505000 ) {
+   layer.on('popupclose', function() {
+     name.style.visibility = 'visible';
+   });}
+    // Pop-up control for small screen sizes
+    if (windowArea < 505000 ) {
+        // Hide leaflet controls when pop-up opens
+        layer.on('popupopen', function() {
+            leafletTopElements.forEach(function(element) {
+             element.style.visibility = 'hidden';
+            });
+
+            leafletBottomElements.forEach(function(element) {
+             element.style.visibility = 'hidden';
+            });                               
+        });            
+        // Display Leaflet controls when pop-up closes
+        layer.on('popupclose', function() {
+            leafletTopElements.forEach(function(element) {
+             element.style.visibility = 'visible';
+            });
+         
+
+            leafletBottomElements.forEach(function(element) {
+             element.style.visibility = 'visible';
+            });                              
+        });
+ }
+ layer.bindPopup(`
+ <h1>${feature.properties.Name}\n</h1>\
+   ${feature.properties.Description}
+   <div style="display: flex; ${window.innerWidth > 600 ? 'width:420px !important' : ''}">
+       <a href="images/${feature.properties.ph1}" target="_blank" style="margin-right: ${window.innerWidth > 600 ? 10 : 3}px;">
+           <img class="img-in-popup" src="images/${feature.properties.ph1}" width=${window.innerWidth > 600 ? '200px' : '100%'}>
+       </a>
+       <a href="images/${feature.properties.ph2}" target="_blank">
+           <img class="img-in-popup" src="images/${feature.properties.ph2}" width=${window.innerWidth > 600 ? '200px' : '100%'}>
+       </a>
+   </div>
+`),
+   {
+     maxWidth: 350,
+     maxHeight: 2000
+
+   }
+ }
 }).addTo(stopsOverlays);
 var marker = L.marker([53.3827, -6.6007], { title: "START HERE" }).addTo(routeOverlays);
 
@@ -168,9 +222,10 @@ var points = L.geoJSON(null, {
 
     }
   }
-}).addTo(stopsOverlays);
+}).addTo(routeOverlays);
 $.getJSON(urlPoints, function (data) {
   points.addData(data);
+  areas6.addData(data);
     // Get the URL parameter for the popup
     const urlParams = new URLSearchParams(window.location.search);
     const popupParam = urlParams.get('popup');
