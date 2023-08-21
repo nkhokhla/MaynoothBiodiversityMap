@@ -1,2 +1,2 @@
 # MaynoothBiodiversityMap
-A web map of Maynooth Campus Biodiversity, made using Leaflet. Availible at https://demomap.azurewebsites.net/
+A web map of Maynooth Campus Biodiversity, made with Maynooth University Computer Science Department and Maynooth Green Campus Comitee. Availible at https://demomap.azurewebsites.net/
