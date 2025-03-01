@@ -15053,6 +15053,10 @@ var myStyleAreas6 = { // Define your style object
 var areas6 = L.geoJSON(null, {
   style: myStyleAreas6,
   onEachFeature: function (feature, layer) {
+	  // Add title "start here" for TSI Frontage stop
+	  if (feature.properties.Name === "TSI Frontage") {
+		layer.bindTooltip("Start Here");
+	  }
     // leaflet-top elements
     const leafletTopElements = document.querySelectorAll('div.leaflet-top');
     // leaflet-bottom elements
@@ -15107,7 +15111,7 @@ var areas6 = L.geoJSON(null, {
    }
  }
 }).addTo(stopsOverlays);
-var marker = L.marker([53.3827, -6.6007], { title: "START HERE" }).addTo(routeOverlays);
+var marker = L.marker([53.3827, -6.6007], { title: "Nearly There" }).addTo(routeOverlays);
 
 $.getJSON(urlAreas6, function (data) {
   areas6.addData(data);
